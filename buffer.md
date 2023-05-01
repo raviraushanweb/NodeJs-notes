@@ -342,7 +342,7 @@ console.log(hexBuffer.toString('hex')); // '48656c6c6f2c20776f726c6421'
 ```javascript
 const utf16leBuffer = Buffer.from('Hello, world!', 'utf16le');
 console.log(utf16leBuffer); // <Buffer 48 00 65 00 6c 00 6c 00 6f 00 2c 00 20 00 77 00 6f 00 
-
+```
 
 ## Typed Array
 Typed arrays are a feature of JavaScript that provides a way to work with different types of binary data efficiently. They are designed to handle raw binary data and offer a higher degree of control over memory allocation and manipulation than regular JavaScript arrays.
