@@ -198,6 +198,67 @@ console.log(byteArray); // [65, 66, 67]
 In summary, the primary property associated with Buffer instances is `buffer.length`. However, you can access and manipulate other derived properties using various methods and techniques as shown above. These derived properties can be useful for inspecting and processing the content of buffers in your applications.
 
 
+## Buffer Methods
+
+1. buffer.fill(value[, offset[, end[, encoding]]]):
+
+Fills the buffer with the specified value.
+
+```javascript
+const buffer = Buffer.alloc(10);
+buffer.fill('A', 2, 5);
+console.log(buffer); // <Buffer 00 00 41 41 41 00 00 00 00 00>
+```
+
+2. buffer.slice([start[, end]]):
+
+Returns a new buffer that references the same memory as the original one.
+
+```javascript
+const buffer = Buffer.from('Hello, world!');
+const slice = buffer.slice(0, 5);
+console.log(slice.toString()); // 'Hello'
+```
+
+3. buffer.copy(target[, targetStart[, sourceStart[, sourceEnd]]]):
+
+Copies data from a buffer to another buffer.
+
+```javascript
+const source = Buffer.from('Hello, world!');
+const target = Buffer.alloc(10);
+source.copy(target, 2, 0, 5);
+console.log(target.toString()); // '  Hello   '
+```
+
+4. buffer.compare(target[, targetStart[, targetEnd[, sourceStart[, sourceEnd]]]]):
+
+Compares two buffers.
+
+```javascript
+const buffer1 = Buffer.from('ABC');
+const buffer2 = Buffer.from('ABCD');
+console.log(buffer1.compare(buffer2)); // -1
+```
+
+5. buffer.equals(otherBuffer):
+
+Returns true if both buffers have the same bytes.
+
+```javascript
+const buffer1 = Buffer.from('ABC');
+const buffer2 = Buffer.from('ABC');
+console.log(buffer1.equals(buffer2)); // true
+```
+
+6. buffer.toString([encoding[, start[, end]]]):
+
+Converts the buffer to a string.
+
+```javascript
+const buffer = Buffer.from('Hello, world!');
+console.log(buffer.toString('utf8', 0, 5)); // 'Hello'
+```
 
 
 
