@@ -262,11 +262,151 @@ console.log(buffer.toString('utf8', 0, 5)); // 'Hello'
 
 
 
+## Static buffer methods
+
+1. Buffer.concat(list[, totalLength]):
+
+Concatenates a list of Buffers.
+
+```javascript
+const buffer1 = Buffer.from('Hello');
+const buffer2 = Buffer.from(', ');
+const buffer3 = Buffer.from('world!');
+
+const combinedBuffer = Buffer.concat([buffer1, buffer2, buffer3]);
+console.log(combinedBuffer.toString()); // 'Hello, world!'
+```
+
+2. Buffer.isBuffer(obj):
+
+Returns true if the object is a Buffer.
+
+```javascript
+const buffer = Buffer.from('Hello');
+const notBuffer = 'Hello';
+
+console.log(Buffer.isBuffer(buffer)); // true
+console.log(Buffer.isBuffer(notBuffer)); // false
+```
+
+3. Buffer.byteLength(string[, encoding]):
+
+Returns the number of bytes required to store the string.
+
+```javascript
+const utf8String = 'Hello, world!';
+const utf16String = 'Hello, world!';
+
+console.log(Buffer.byteLength(utf8String, 'utf8')); // 13
+console.log(Buffer.byteLength(utf16String, 'utf16le')); // 26
+```
 
 
+## Encoding
+In Node.js, Buffer encodings determine how binary data is interpreted and represented as strings or vice versa. When working with Buffers, you'll often need to specify the encoding when converting between binary data and strings. Node.js supports several built-in encodings:
+
+1. 'utf8': This is the default encoding and represents Unicode characters using one to four bytes per character. It can represent any character in the Unicode standard, which makes it suitable for most text data, including multilingual content.
+
+```javascript
+const utf8Buffer = Buffer.from('Hello, 世界!', 'utf8');
+console.log(utf8Buffer); // <Buffer 48 65 6c 6c 6f 2c 20 e4 b8 96 e7 95 8c 21>
+console.log(utf8Buffer.toString('utf8')); // 'Hello, 世界!'
+```
+
+2. 'ascii': This encoding uses one byte per character and supports only ASCII characters (codes 0-127). It's useful for basic English text but is limited when dealing with non-English characters or special symbols.
+
+```javascript
+const asciiBuffer = Buffer.from('Hello, world!', 'ascii');
+console.log(asciiBuffer); // <Buffer 48 65 6c 6c 6f 2c 20 77 6f 72 6c 64 21>
+console.log(asciiBuffer.toString('ascii')); // 'Hello, world!'
+```
+
+3. 'base64': This encoding represents binary data as an ASCII string using a set of 64 different characters (A-Z, a-z, 0-9, +, /) and the '=' symbol for padding. It's commonly used for encoding binary data, such as images or encrypted content, for transmission over text-based protocols like HTTP or email.
+
+```javascript
+const base64Buffer = Buffer.from('SGVsbG8sIHdvcmxkIQ==', 'base64');
+console.log(base64Buffer); // <Buffer 48 65 6c 6c 6f 2c 20 77 6f 72 6c 64 21>
+console.log(base64Buffer.toString('base64')); // 'SGVsbG8sIHdvcmxkIQ=='
+```
+
+4. 'hex': This encoding represents binary data as a string of hexadecimal numbers (0-9, A-F). Each byte in the binary data is represented by two hexadecimal characters. It's often used for debugging, as it allows you to easily see the individual byte values in a buffer.
+
+```javascript
+const hexBuffer = Buffer.from('48656c6c6f2c20776f726c6421', 'hex');
+console.log(hexBuffer); // <Buffer 48 65 6c 6c 6f 2c 20 77 6f 72 6c 64 21>
+console.log(hexBuffer.toString('hex')); // '48656c6c6f2c20776f726c6421'
+```
+
+5. 'utf16le' or 'ucs2': This encoding represents Unicode characters using two bytes per character (Little Endian byte order). It's less space-efficient than UTF-8 for ASCII characters but can be useful for certain applications or when dealing with specific text data formats.
+
+```javascript
+const utf16leBuffer = Buffer.from('Hello, world!', 'utf16le');
+console.log(utf16leBuffer); // <Buffer 48 00 65 00 6c 00 6c 00 6f 00 2c 00 20 00 77 00 6f 00 
 
 
+## Typed Array
+Typed arrays are a feature of JavaScript that provides a way to work with different types of binary data efficiently. They are designed to handle raw binary data and offer a higher degree of control over memory allocation and manipulation than regular JavaScript arrays.
 
+Typed arrays consist of two main components:
+
+1. ArrayBuffer: This is a fixed-size, raw binary data buffer that represents a block of memory. You can think of it as a chunk of memory that can be accessed and manipulated using typed arrays or views.
+
+2. TypedArray View: A view is a typed array object that provides a specific way to interpret and manipulate the data in an ArrayBuffer. Different views can be created for the same ArrayBuffer, allowing you to work with the data in various formats (e.g., as 8-bit integers, 16-bit integers, 32-bit floating-point numbers, etc.).
+
+There are several types of typed array views, each designed to handle a specific type of data:
+
+- Int8Array: Represents 8-bit, signed integers.
+- Uint8Array: Represents 8-bit, unsigned integers.
+- Uint8ClampedArray: Represents 8-bit, unsigned integers, clamped to the range 0-255.
+- Int16Array: Represents 16-bit, signed integers.
+- Uint16Array: Represents 16-bit, unsigned integers.
+- Int32Array: Represents 32-bit, signed integers.
+- Uint32Array: Represents 32-bit, unsigned integers.
+- Float32Array: Represents 32-bit, floating-point numbers.
+- Float64Array: Represents 64-bit, floating-point numbers.
+
+Here's an example of how to create and use typed arrays:
+
+```javascript
+// Create an ArrayBuffer of 16 bytes
+const buffer = new ArrayBuffer(16);
+
+// Create a view to treat the data as 32-bit signed integers
+const int32View = new Int32Array(buffer);
+
+// Set values in the int32View
+int32View[0] = 42;
+int32View[1] = -17;
+int32View[2] = 1024;
+int32View[3] = 0;
+
+console.log(int32View); // Int32Array(4) [42, -17, 1024, 0]
+
+// Create another view to treat the data as 8-bit unsigned integers
+const uint8View = new Uint8Array(buffer);
+
+// Access the data as 8-bit unsigned integers
+console.log(uint8View); // Uint8Array(16) [42, 0, 0, 0, 239, 255, 255, 255, 0, 4, 0, 0, 0, 0, 0, 0]
+```
+
+Typed arrays are particularly useful when working with WebGL, Web Audio API, or other web APIs that require efficient manipulation of binary data. They are also helpful when dealing with large data sets, as they provide better performance than regular JavaScript arrays for certain operations.
+
+## Singed and Unsigned Integers
+In computing, signed and unsigned integers are two ways of representing integer values in binary form.
+
+1. Signed integers: These integers can represent both positive and negative numbers. In most cases, signed integers are stored using two's complement representation, which makes arithmetic operations simpler in binary. The most significant bit (MSB) of a signed integer is the sign bit. If the sign bit is 0, the number is positive; if it's 1, the number is negative. The remaining bits represent the magnitude of the integer.
+
+For example, let's consider an 8-bit signed integer:
+- The smallest value is `-128` (binary: `10000000`)
+- The largest value is `127` (binary: `01111111`)
+
+2. Unsigned integers: These integers can represent only non-negative numbers (including zero). All bits in an unsigned integer are used to represent the magnitude of the integer, which allows for a larger range of positive values compared to signed integers with the same number of bits.
+
+For example, let's consider an 8-bit unsigned integer:
+- The smallest value is `0` (binary: `00000000`)
+- The largest value is `255` (binary: `11111111`)
+
+The choice between signed and unsigned integers depends on the requirements of your application. If you need to represent negative numbers, you would use signed integers. However, if you only require non-negative numbers and need a larger positive range, unsigned integers would be more appropriate.
 
 
 
