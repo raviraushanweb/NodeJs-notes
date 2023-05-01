@@ -410,4 +410,70 @@ The choice between signed and unsigned integers depends on the requirements of y
 
 
 
+# Extras
+
+## How does file conversion works
+When converting a file from one format to another, you're essentially transforming the underlying data from one representation to another. This process typically involves reading the file's original data into memory (often as a buffer or a stream), processing and modifying the data as needed, and then writing the converted data to a new file in the target format. Depending on the source and target formats, this process might involve modifying the buffer and bytes.
+
+Here's a high-level overview of the conversion process:
+
+1. Read the source file: Open the source file and read its contents into memory, usually as a buffer, stream, or an appropriate data structure.
+
+2. Decode/parse the source format: Interpret the raw data according to the source file format's specifications. This step may involve parsing a text-based format (e.g., CSV, JSON, XML) into a data structure or decoding a binary format (e.g., image or audio files) into an in-memory representation.
+
+3. Transform the data: Apply any necessary transformations to the data, such as changing data types, modifying values, or applying filters. This step is highly dependent on the source and target formats and the specific conversion requirements.
+
+4. Encode/serialize the target format: Convert the in-memory data representation into the target file format. This step may involve serializing a data structure into a text-based format (e.g., JSON, XML) or encoding an in-memory representation into a binary format (e.g., image or audio files).
+
+5. Write the target file: Write the converted data to a new file in the target format.
+
+Throughout this process, buffers and bytes may be modified as the data is read, decoded, transformed, encoded, and written. The exact modifications depend on the specific file formats and the conversion requirements. In some cases, the conversion process may involve complex operations, such as decompressing data, applying algorithms, or changing the data's internal structure. In other cases, the conversion might be as simple as changing a few bytes or reformatting the data in a different text-based format.
+
+## Convert a pdf file to png files
+Converting a PDF file to a PNG file involves reading the PDF content, rendering the pages as images, and then saving those images as PNG files. This process typically requires using external libraries, as PDF and PNG formats are complex and not natively supported by JavaScript or Node.js. In this example, I'll show you how to use the `pdf-lib` and `sharp` libraries to convert a PDF file to PNG files in a Node.js environment.
+
+1. Install the required libraries:
+
+```bash
+npm install pdf-lib sharp
+```
+
+2. Create a script (e.g., `convertPdfToPng.js`) to convert a PDF file to PNG files:
+
+```javascript
+const fs = require('fs');
+const { PDFDocument } = require('pdf-lib');
+const sharp = require('sharp');
+
+async function convertPdfToPng(pdfPath, outputFolder) {
+  // Read the PDF file
+  const pdfBytes = fs.readFileSync(pdfPath);
+  
+  // Load the PDFDocument using pdf-lib
+  const pdfDoc = await PDFDocument.load(pdfBytes);
+  const pageCount = pdfDoc.getPageCount();
+  
+  // Iterate through each page and convert it to a PNG file
+  for (let i = 0; i < pageCount; i++) {
+    const page = pdfDoc.getPage(i);
+    const pngImage = await page.renderToPng();
+    
+    // Use sharp to save the PNG image
+    const outputPath = `${outputFolder}/page-${i + 1}.png`;
+    await sharp(pngImage).toFile(outputPath);
+    console.log(`Saved page ${i + 1} as ${outputPath}`);
+  }
+}
+
+// Example usage: convertPdfToPng('input.pdf', 'output');
+```
+
+3. Call the `convertPdfToPng` function with the appropriate PDF file path and output folder:
+
+```javascript
+convertPdfToPng('input.pdf', 'output');
+```
+
+The `convertPdfToPng` function reads the PDF file, uses the `pdf-lib` library to load and render the PDF pages as images, and then saves the rendered images as PNG files using the `sharp` library. This example demonstrates how to convert a PDF file to PNG files in a Node.js environment by modifying the buffer and bytes during the conversion process. Note that this example assumes that the PDF contains only images, and it may not handle text or vector graphics correctly. For more complex PDF files, you might need to use a more powerful library like `poppler-utils` or other external tools.
+
 
