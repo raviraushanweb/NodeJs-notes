@@ -144,3 +144,69 @@ const htmlBuffer = Buffer.from(htmlString);
 
 These examples illustrate how the different buffer creation methods can be applied in various real-world situations. The choice of method depends on factors such as performance, security, and the nature of the data you are working with.
 
+
+## Buffer properties
+Sure, let's take a closer look at the properties available for Buffer instances. Currently, there's one primary property:
+
+1. buffer.length:
+This property returns the size of the buffer in bytes. It's a read-only property, so you can't change the size of a buffer after it's been created.
+
+Example:
+```javascript
+const buffer = Buffer.from('Hello, world!');
+
+console.log(buffer.length); // 13
+```
+
+Although there's only one primary property, other properties can be derived from Buffer instances using various methods. Here are a few examples:
+
+1. Getting the byte value at a specific index:
+You can use the square bracket notation to access the byte value at a specific index within the buffer, similar to how you access elements in an array.
+
+Example:
+```javascript
+const buffer = Buffer.from('ABC');
+
+console.log(buffer[0]); // 65 (0x41)
+console.log(buffer[1]); // 66 (0x42)
+console.log(buffer[2]); // 67 (0x43)
+```
+
+2. Iterating over the content of a buffer:
+You can use a for loop or other iteration methods to process the content of a buffer.
+
+Example:
+```javascript
+const buffer = Buffer.from('Hello, world!');
+
+for (let i = 0; i < buffer.length; i++) {
+  console.log(`Byte ${i}: ${buffer[i]}`);
+}
+```
+
+3. Converting a buffer to an array of byte values:
+Using the spread operator, you can easily convert a buffer into an array of byte values.
+
+Example:
+```javascript
+const buffer = Buffer.from('ABC');
+const byteArray = [...buffer];
+
+console.log(byteArray); // [65, 66, 67]
+```
+
+In summary, the primary property associated with Buffer instances is `buffer.length`. However, you can access and manipulate other derived properties using various methods and techniques as shown above. These derived properties can be useful for inspecting and processing the content of buffers in your applications.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
