@@ -2,16 +2,20 @@
 
 Learning inbuilt packages:  
   1. - [x] fs  
-  2. - [x] path  
-  3. - [x] os  
-  4. - [x] console  
-  5. - [x] debugger  
+  2. - [ ] http  
+  3. - [ ] https  
+  4. - [x] path  
+  5. - [x] os  
   6. - [ ] Events  
-  7. - [ ] Errors  
-  8. - [x] Buffer  
-  9. - [ ] Stream  
-  10. - [ ] Readline  
-  11. - [ ] Net  
-  12. - [x] DNS  
-  13. - [ ] Domain  
-  14. - [ ] URL  
+  7. - [ ] Stream  
+  8. - [ ] util  
+  9. - [x] buffer  
+  10. - [ ] url  
+  11. - [ ] child_process  
+  12. - [x] crypto  
+  13. - [ ] net  
+  14. - [x] dns  
+  15. - [ ] querystring  
+  16. - [x] console  
+  17. - [x] debugger  
+  18. - [ ] domain
