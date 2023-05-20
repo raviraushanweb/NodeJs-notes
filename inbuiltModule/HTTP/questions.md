@@ -261,4 +261,105 @@ server.listen(8000);
 
 In this example, we create a new HTTP server and handle each request by sending a response with a status code of 200, a content type of 'text/plain', and a body of 'Hello, World!'.
 
+## 8: How does HTTP server handle concurrent connections? How can you modify the default behaviour?
+
+Answer:
+
+Node.js HTTP server can handle multiple concurrent connections due to its non-blocking, event-driven architecture. When a client request arrives, Node.js invokes the request handling callback and then immediately moves on to handle the next event (like another incoming request), without waiting for the previous request to be fully processed. This is possible because Node.js operates on a single-threaded event loop, using non-blocking I/O calls, allowing it to support thousands of concurrent connections.
+
+The maximum number of concurrent connections a Node.js server can handle is controlled by the server's `maxConnections` property. By default, this property is set to `Infinity`, meaning there is no inherent limit in the HTTP module itself. Here's how you might limit the server to 100 concurrent connections:
+
+```javascript
+const http = require('http');
+
+const server = http.createServer((req, res) => {
+    // handle the request
+});
+
+server.maxConnections = 100;
+
+server.listen(8000);
+```
+
+In this example, the server will stop accepting new connections once it reaches 100 concurrent connections. Any new incoming connections will be put into a queue and will be processed once some of the active connections are closed.
+
+It's important to note that, while Node.js can handle a large number of concurrent connections, each connection does consume some memory and CPU resources. If your server is receiving more connections than it can efficiently handle, you might need to consider other solutions, such as load balancing, clustering, or offloading some tasks to worker threads or separate services.
+
+## 9: Explain how you can make an HTTP POST request using the HTTP module.
+
+Answer:
+
+To make an HTTP POST request using the HTTP module, you'll use the `http.request()` function, specifying 'POST' as the method. Here's an example:
+
+```javascript
+const http = require('http');
+
+const data = JSON.stringify({
+  name: 'John Doe'
+});
+
+const options = {
+  hostname: 'www.example.com',
+  port: 80,
+  path: '/api/users',
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Content-Length': data.length
+  }
+};
+
+const req = http.request(options, (res) => {
+  let responseData = '';
+
+  res.on('data', (chunk) => {
+    responseData += chunk;
+  });
+
+  res.on('end', () => {
+    console.log('Response:', responseData);
+  });
+});
+
+req.on('error', (error) => {
+  console.error('An error occurred:', error);
+});
+
+req.write(data);
+req.end();
+```
+
+In this example, we're making a POST request to 'www.example.com/api/users' and sending a JSON payload containing a single user object. Notice that we specify 'POST' as the method and set the 'Content-Type' and 'Content-Length' headers appropriately. We also listen for 'data' and 'end' events on the response to collect the response data and log it when it's fully received. The `req.write(data)` is used to send the request body, and `req.end()` is used to signal the end of the request.
+
+## 10: Can you discuss how to use HTTPS instead of HTTP in Node.js?
+
+Answer:
+
+Node.js provides an `https` module that is similar to the `http` module but for making and serving HTTPS requests, which are HTTP requests over a secure connection. To create an HTTPS server, you need a TLS (or SSL) certificate.
+
+Here's an example of how to create a simple HTTPS server:
+
+```javascript
+const https = require('https');
+const fs = require('fs');
+
+const options = {
+  key: fs.readFileSync('test/fixtures/keys/agent2-key.pem'),
+  cert: fs.readFileSync('test/fixtures/keys/agent2-cert.pem')
+};
+
+https.createServer(options, (req, res) => {
+  res.writeHead(200);
+  res.end('Hello secure world!');
+}).listen(8000);
+```
+
+In this example, the `options` object passed into `https.createServer()` contains the key and certificate required for creating an HTTPS server. The `fs.readFileSync()` calls are used to read the key and certificate files from the filesystem.
+
+The `https` module also provides a `https.request()` function that you can use to make HTTPS client requests, similar to `http.request()` in the `http` module.
+
+Please remember that you should never expose your private keys. The certificate and key in the example above are just placeholders - in a real application, you should keep these secure and ideally, use a trusted Certificate Authority to issue your certificates.
+
+Also, note that Node.js is typically not used to serve HTTPS traffic in production environments. Instead, a reverse proxy (like Nginx or Apache) is used to handle HTTPS traffic and forward it to the Node.js application.
+
 
