@@ -2,8 +2,8 @@
 
 Learning inbuilt packages:  
   1. - [x] fs  
-  2. - [ ] http  
-  3. - [ ] https  
+  2. - [x] http  
+  3. - [x] https  
   4. - [x] path  
   5. - [x] os  
   6. - [ ] Events  
