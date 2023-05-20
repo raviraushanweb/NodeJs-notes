@@ -1,4 +1,4 @@
-**1: How does the HTTP request-response cycle work in Node.js?**
+## 1: How does the HTTP request-response cycle work in Node.js?
 
 Answer:
 
@@ -32,7 +32,7 @@ In Node.js, the HTTP request-response cycle is managed using the HTTP module, wh
 
 This is a basic explanation. In a real-world application, you would likely use a framework like Express.js, which provides a higher-level interface for handling HTTP requests and responses.
 
-**2: What is the purpose of the `http.createServer()` method?**
+## 2: What is the purpose of the `http.createServer()` method
 
 Answer:
 
@@ -61,7 +61,7 @@ server.listen(8000, () => {
 
 In this example, the `http.createServer()` method is used to create a new HTTP server that listens on port 8000. Whenever a client makes a request to this server, the server will send back a response of 'Hello, World!'.
 
-**3: How can you stream data using the HTTP module?**
+## 3: How can you stream data using the HTTP module?
 
 Answer:
 
@@ -109,7 +109,7 @@ server.listen(8000);
 
 In this example, we're creating a read stream from a large file and piping it to the response. The file will be streamed to the client as soon as the server starts reading it, rather than reading the entire file into memory before sending it.
 
-**4: What are the differences between `http.get()` and `http.request()` methods in the HTTP module?**
+## 4: What are the differences between `http.get()` and `http.request()` methods in the HTTP module?
 
 Answer:
 
@@ -152,7 +152,7 @@ The `http.get()` and `http.request()` methods in Node.js are used to make HTTP r
 
 In summary, `http.get()` is a simpler method specifically for GET requests. It automatically ends the request for you. In contrast, `http.request()` is more versatile and allows you to specify the HTTP method and other options. However, it requires you to manually end the request.
 
-**5: How does error handling work in the HTTP module? What happens when an 'error' event is emitted?**
+## 5: How does error handling work in the HTTP module? What happens when an 'error' event is emitted?
 
 Answer:
 
@@ -199,7 +199,7 @@ In this example, separate 'error' event listeners are attached to the request an
 
 Proper error handling is important in Node.js, as unhandled exceptions will cause the server to stop. Hence, listening for and handling 'error' events is a crucial part of working with the HTTP module.
 
-**6: Can you explain how the `http.Agent` class works and its role in the HTTP module?**
+## 6: Can you explain how the `http.Agent` class works and its role in the HTTP module?
 
 Answer:
 
@@ -227,7 +227,7 @@ In this example, we've created a new Agent that allows up to 50 sockets and keep
 
 The `http.Agent` is an important part of the HTTP module because it controls how requests are made. By pooling sockets, it can greatly increase the efficiency of your HTTP client, especially under high load. However, it's also important to manage your Agent properly, as too many sockets can lead to high memory usage.
 
-**7: What is the role of the `http.ServerResponse` object and which are its most important methods?**
+## 7: What is the role of the `http.ServerResponse` object and which are its most important methods?
 
 Answer:
 
