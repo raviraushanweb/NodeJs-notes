@@ -6,7 +6,7 @@ Learning inbuilt packages:
   3. - [x] https  
   4. - [x] path  
   5. - [x] os  
-  6. - [ ] Events  
+  6. - [x] Events  
   7. - [ ] Stream  
   8. - [ ] util  
   9. - [x] buffer  
