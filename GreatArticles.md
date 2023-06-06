@@ -6,3 +6,8 @@
 
 [HeapSnapshot with --inspect and Chrome](https://marmelab.com/blog/2018/04/03/how-to-track-and-fix-memory-leak-with-nodejs.html)   
 [Profiler methods inbuilt and third party](https://azureossd.github.io/2021/12/10/Troubleshooting-NodeJS-High-Memory-scenarios-in-App-Service-Linux/index.html)  
+
+[JS Execution Context](https://www.freecodecamp.org/news/execution-context-how-javascript-works-behind-the-scenes/)   
+[Arguments Objects](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments)   
+[Closures](https://www.freecodecamp.org/news/scope-and-closures-in-javascript/)   
+[Hoisting](https://www.freecodecamp.org/news/what-is-hoisting-in-javascript/)   
